@@ -305,13 +305,13 @@ Despite a successful setup of the official [Gaussian Splatting](https://repo-sur
 
 ## ✅ Work Completed
 
-- Processed 15 high-resolution Apollo 17 photographs using **Agisoft Metashape**, resulting in a high-quality sparse reconstruction and textured mesh.
+- Processed 15 high-resolution Apollo 17 photographs using Agisoft Metashape, resulting in a high-quality sparse reconstruction and textured mesh.
 - Converted the COLMAP-formatted output to the binary format required by GSplat.
 - Successfully trained the Gaussian Splatting model on these images, saving model checkpoints at 5K, 10K, and 15K iterations.
-- Verified quality of generated images (for training views) using a custom **evaluation script** based on **PSNR** and **SSIM**, achieving:
-  - **Average PSNR**: 30.50
-  - **Average SSIM**: 0.88
-- Created 10 novel camera poses and integrated them into the GSplat camera setup.
+- Verified reconstruction quality for **training views only** using a custom evaluation script based on PSNR and SSIM:
+    - Average PSNR: **30.50**
+    - Average SSIM: **0.88**
+- Attempted novel view synthesis with 10 new camera poses, but rendering via GSplat failed due to internal memory or compatibility issues.
 
 ---
 ## 🚧 Transition to Alternative
