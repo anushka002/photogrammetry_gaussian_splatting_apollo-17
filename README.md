@@ -291,7 +291,40 @@ This concludes Part A of the assignment.
 
 ---
 
-## PART B
+## ⚠️ Gaussian Splatting Limitations and Transition
+
+Despite a successful setup of the official [Gaussian Splatting](https://repo-surface.inria.fr/gaussian-splatting/) repository, multiple technical issues prevented full completion of our novel view synthesis pipeline:
+
+- **CUDA Memory Issues**: Even after reducing resolution and setting `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`, the training pipeline often crashed due to GPU out-of-memory errors on a 4GB CUDA device.
+- **Empty Output Folders**: Although training completed successfully (up to 15,000 iterations), the expected rendered outputs (e.g., under `test/ours_XXXX/renders`) remained consistently empty.
+- **Rendering Script Failures**: Both official `render.py` and our modified `manual_novel_render.py` failed to correctly render the novel camera poses, primarily due to internal `Camera()` API changes and attribute mismatches (e.g., `unexpected keyword argument 'fx'`, `no attribute _exposure`).
+- **Scene Type Errors**: Even after merging `cameras.json` with novel poses, the renderer raised `AssertionError: Could not recognize scene type!`, indicating unsupported or misformatted novel camera definitions.
+- **No Visual Output for Novel Views**: Despite several recovery attempts—including merging JSONs, regenerating camera definitions, and manually adjusting rendering logic—no novel view images were produced.
+
+---
+
+## ✅ Work Completed
+
+- Processed 15 high-resolution Apollo 17 photographs using **Agisoft Metashape**, resulting in a high-quality sparse reconstruction and textured mesh.
+- Converted the COLMAP-formatted output to the binary format required by GSplat.
+- Successfully trained the Gaussian Splatting model on these images, saving model checkpoints at 5K, 10K, and 15K iterations.
+- Verified quality of generated images (for training views) using a custom **evaluation script** based on **PSNR** and **SSIM**, achieving:
+  - **Average PSNR**: 30.50
+  - **Average SSIM**: 0.88
+- Created 10 novel camera poses and integrated them into the GSplat camera setup.
+
+---
+## 🚧 Transition to Alternative
+
+Due to persistent rendering failures for novel views using the Gaussian Splatting pipeline and limited time for debugging internal code, we are shifting to an alternate approach for novel view synthesis.
+
+Since **Agisoft Metashape** successfully produced a dense point cloud, mesh, and calibrated cameras, we will now:
+- Export the textured 3D model directly from Metashape.
+- Use **Metashape’s built-in rendering tools or Python API** to generate novel camera views.
+- Evaluate those views using the same SSIM/PSNR comparison framework.
+
+This transition allows us to stay within a reliable toolchain while completing the novel view evaluation using proven data and camera parameters.
+
 
 ---
 
